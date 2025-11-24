@@ -57,6 +57,7 @@ public class Program
         const string SecondY = "Enter the second cordenate y: ";
         const string FoundAlready = "You already loot this spot...";
         const string FoundCoin = "You have found a coin!";
+        const string NoAttemptsLeft = "You have no attempts left";
         const int Attempts = 5;
         const int CoinChance = 50;
         int bits = 0;
@@ -105,7 +106,8 @@ public class Program
                 }
             }
         }
-
+        // Show attacks by LVL
+        const string SeeAttacks = "You need to level up to see any attack";
 
         // START GAME LOOP
         do
@@ -454,7 +456,7 @@ public class Program
 
                         if(a == Attempts -1)
                         {
-                            Console.WriteLine("You have no attempts left");
+                            Console.WriteLine(NoAttemptsLeft);
                         }
                         for (int i = 0; i < mine.GetLength(0); i++)
                         {
@@ -622,6 +624,43 @@ public class Program
 
                         break;
                 case 6: //Show attacks by LVL
+
+                    string[][] attacksByLevel = new string[][]
+                    {
+                        new string [] { "Magic Spark 💫" },
+                        new string [] {"Fireball 🔥", "Ice Ray 🥏", "Arcane Shield ⚕️"},
+                        new string [] {"Meteor ☄️", "Pure Energy Explosion 💥", "Minor Charm 🎭", "Air Strike 🍃"},
+                        new string [] {"Wave of Light ⚜️", "Storm of Wings 🐦"},
+                        new string [] {"Cataclysm 🌋", "Portal of Chaos 🌀", "Arcane Blood Pact 🩸", "Elemental Storm ⛈️" }
+                    };
+
+                    switch (wizardLevel)
+                    {
+                        case 1:
+                            Console.WriteLine(string.Join(", ", attacksByLevel[0]));
+                            Console.WriteLine(" ");
+                            break;
+                        case 2:
+                            Console.WriteLine(string.Join(", ", attacksByLevel[1]));
+                            Console.WriteLine(" ");
+                            break;
+                        case 3:
+                            Console.WriteLine(string.Join(", ", attacksByLevel[2]));
+                            Console.WriteLine(" ");
+                            break;
+                        case 4:
+                            Console.WriteLine(string.Join(", ", attacksByLevel[3]));
+                            break;
+                        case 5:
+                            Console.WriteLine(string.Join(", ", attacksByLevel[4]));
+                            Console.WriteLine(" ");
+                            break;
+                    }
+                    if (wizardLevel == 0)
+                    {
+                        Console.WriteLine(SeeAttacks);
+                    }
+
                     break;
                 case 7: //Decode ancient Scroll
                     break;
