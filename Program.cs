@@ -65,6 +65,8 @@ public class Program
         const string Error = "Error, enter a valid input";
         const string FullMsg = "Your inventoy is full!";
         const string NoBits = "Sorry, you dont have any bits left to keep buying";
+        const string InventoryTitle = "-----INVENTORY-----";
+        const string InventoryEmpty = "Your inventory is empty";
 
         string[,] inventory = new string[,]
         {
@@ -468,7 +470,35 @@ public class Program
                         break;
                 case 4: //Show inventory
 
+                    Console.WriteLine(InventoryTitle);
+                    bool allEmpty = true;
 
+                    for (int q = 0; q < inventory.GetLength(0); q++)
+                    {
+                        for (int z = 0; z < inventory.GetLength(1); z++)
+                        {
+                            allEmpty = true;
+                            break;
+                        }
+                        if (!allEmpty)
+                        {
+                            break;
+                        }
+                    }
+                    
+                    for (int r = 0; r < inventory.GetLength(0); r++)
+                    {
+                        for (int e = 0; e < inventory.GetLength(1); e++)
+                        {
+                            Console.Write(inventory[r, e]);
+                        }
+                        Console.WriteLine();
+                    }
+                    if (allEmpty)
+                    {
+                        Console.WriteLine(InventoryEmpty);
+                        break;
+                    }
 
                     break;
                 case 5: //Buy items
