@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections;
+using System.Numerics;
 using System.Text;
 namespace CodeQuestDLC_;
 
@@ -7,6 +8,8 @@ public class Program
 {
     static void Main()
     {
+        //Menu options
+
         Console.OutputEncoding = Encoding.UTF8;
         const string MenuTitle = "===== MAIN MENU - CODEQUEST ✨​🕹️​⚔️​=====";
         const string MenuOption1 = "1. Train your wizard🧙";
@@ -17,27 +20,27 @@ public class Program
         const string MenuOption6 = "6. Show attacks by LVL🏹🗡️";
         const string MenuOption7 = "7. Decode ancient Scroll🔍📜";
         const string MenuOptionExit = "0. Exit game";
-        const string MenuPrompt = "Choose an option (1-7) - (0) to exit: ";
-        const string InputErrorMessage = "Invalid input. Please enter a number between 0 and 7.";
+        const string MenuChoose = "Choose an option (1-7) - (0) to exit: ";
+        const string ErrorMessage = "Invalid input. Please enter a number between 0 and 7.";
         const string ExitMessage = "Exiting game...";
 
-        // Training Wizard
+        //Training Wizard
         const string InsertNamePrompt = "Enter your wizard's name: ";
-        const string RankE = "Raoden the Elantris";
-        const string RankD = "Zyn the Bugged";
+        const string RankA = "Raoden the Elantris";
+        const string RankB = "Zyn the Bugged";
         const string RankC = "Arka Nullpointer";
-        const string RankB = "Elarion of the flames";
-        const string RankA = "ITB-Wizard the Grey";
-        const string MsgE = "Repeat to the 2nd call.";
-        const string MsgD = "You still confuse the rod with a spoon.";
+        const string RankD = "Elarion of the flames";
+        const string RankE = "ITB-Wizard the Grey";
+        const string MsgA = "Repeat to the 2nd call.";
+        const string MsgB = "You still confuse the rod with a spoon.";
         const string MsgC = "You are a Summoner of Magical Breezes.";
-        const string MsgB = "Wow! You can summon dragons without burning down the lab!";
-        const string MsgA = "You have reached the rank of Arcane Master!";
+        const string MsgD = "Wow! You can summon dragons without burning down the lab!";
+        const string MsgE = "You have reached the rank of Arcane Master!";
         const int TotalDaysTraining = 5;
-        const int MaxHoursPerDay = 25;
-        const int MaxPowerPerDay = 11;
-        const int MinHoursPerDay = 1;
-        const int MinPowerPerDay = 1;
+        const int MaxHours = 25;
+        const int MaxPower = 11;
+        const int MinHours = 1;
+        const int MinPower = 1;
 
         int input;
         Random random = new Random();
@@ -46,7 +49,37 @@ public class Program
         const string EnterDungeonMsg = "You enter the dungeon and and you face various enemies...";
         const string RollDiceMsg = "Now you must roll a dice to defeat the enemy";
 
+        //Loot the mine
+        const string LootTheMineMsg = "You enter the mine and start collecting resources...";
+        const string ErrorMsg = "Invalid input. Please enter two numbers between 0 and 4.";
+        const string EnterInputLoot = "Enter two numbers between 0, 4 to loot";
+        const string FirstX = "Enter the first cordenate x: ";
+        const string SecondY = "Enter the second cordenate y: ";
+        const int Attempts = 5;
+        const int CoinChance = 50;
+        int bits = 0;
+
+
         int wizardLevel = 0;
+        string[,] hiddenMine = new string[,]
+        {
+            { "", "", "", "", ""},
+            { "", "", "", "", ""},
+            { "", "", "", "", ""},
+            { "", "", "", "", ""},
+            { "", "", "", "", ""}
+        };
+        for (int cy = 0; cy < hiddenMine.GetLength(0); cy++)
+        {
+            for (int cx = 0; cx < hiddenMine.GetLength(0); cx++)
+            {
+                int randomNum = random.Next(0, 101);
+                if (randomNum >= CoinChance)
+                {
+                    hiddenMine[cy, cx] = "c";
+                }
+            }
+        }
 
         do
         {
@@ -59,7 +92,7 @@ public class Program
             Console.WriteLine(MenuOption6);
             Console.WriteLine(MenuOption7);
             Console.WriteLine(MenuOptionExit);
-            Console.Write(MenuPrompt);
+            Console.Write(MenuChoose);
 
 
             try
@@ -69,12 +102,12 @@ public class Program
             }
             catch (FormatException)
             {
-                Console.WriteLine(InputErrorMessage);
+                Console.WriteLine(ErrorMessage);
                 input = -1;
             }
             catch (Exception)
             {
-                Console.WriteLine(InputErrorMessage);
+                Console.WriteLine(ErrorMessage);
                 input = -1;
             }
 
@@ -93,23 +126,22 @@ public class Program
 
                     for (int day = 1; day <= TotalDaysTraining; day++)
                     {
+                        totalHours += random.Next(MinHours, MaxHours);
+                        totalPower += random.Next(MinPower, MaxPower);
 
-                        totalHours += random.Next(MinHoursPerDay, MaxHoursPerDay);
-                        totalPower += random.Next(MinPowerPerDay, MaxPowerPerDay);
-
-                        Console.WriteLine($"Day {day} -- {wizardName} has trained for a total of {totalHours} hours and gained {totalPower} power points");
+                        Console.WriteLine($"Day {day} -- {wizardName} has trained for a total of {totalHours} houra and gained {totalPower} power points");
                         Console.ReadKey();
                     }
 
                     if (totalPower < 20)
                     {
-                        Console.WriteLine(MsgE);
-                        wizardTitle = RankE;
+                        Console.WriteLine(MsgA);
+                        wizardTitle = RankA;
                     }
                     else if (totalPower >= 20 && totalPower < 30)
                     {
-                        Console.WriteLine(MsgD);
-                        wizardTitle = RankD;
+                        Console.WriteLine(MsgB);
+                        wizardTitle = RankB;
                     }
                     else if (totalPower >= 30 && totalPower < 35)
                     {
@@ -118,16 +150,16 @@ public class Program
                     }
                     else if (totalPower >= 35 && totalPower < 40)
                     {
-                        Console.WriteLine(MsgB);
-                        wizardTitle = RankB;
+                        Console.WriteLine(MsgD);
+                        wizardTitle = RankD;
                     }
                     else
                     {
-                        Console.WriteLine(MsgA);
-                        wizardTitle = RankA;
+                        Console.WriteLine(MsgE);
+                        wizardTitle = RankE;
                     }
                     Console.WriteLine(" ");
-                    Console.WriteLine($"Training complete! {wizardName} has achieved a total power of {totalPower} points and earned the title {wizardTitle}");
+                    Console.WriteLine($"Training complete!! {wizardName} has gained a total of {totalPower} points and earned the title of {wizardTitle}");
                     Console.WriteLine(" ");
                     Console.ReadKey();
 
@@ -278,7 +310,89 @@ public class Program
                     }
                     break;
                 case 3: //Loot the mine
-                    break;
+
+                    Console.WriteLine(" ");
+                    Console.WriteLine(LootTheMineMsg);
+                    string[,] mine = new string[,]
+                    {
+                        {"➖", "➖", "➖", "➖", "➖"},
+                        {"➖", "➖", "➖", "➖", "➖"},
+                        {"➖", "➖", "➖", "➖", "➖"},
+                        {"➖", "➖", "➖", "➖", "➖"},
+                        {"➖", "➖", "➖", "➖", "➖"}
+                    };
+                    
+                    for (int i = 0; i < mine.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < mine.GetLength(1); j++)
+                        {
+                            Console.Write(mine[i, j]);
+                        }
+                        Console.WriteLine();
+                    }
+
+                    for (int a = 0; a < Attempts; a++)
+                    {
+                        Console.WriteLine($"You have {Attempts -a} attempts and {bits} bits!");
+                        Console.WriteLine(EnterInputLoot);
+
+                        int x, y;
+
+                        try
+                        {
+                            Console.WriteLine(FirstX);
+                            x = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine(SecondY);
+                            y = Convert.ToInt32(Console.ReadLine());
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine(ErrorMsg);
+                            a--;
+                            continue;
+
+                        }
+
+                        if (x < 0 || x >= mine.GetLength(1) || y < 0 || y >= mine.GetLength(0))
+                        {
+                            Console.WriteLine(ErrorMsg);
+                            a--;
+                            continue;
+                        }
+
+                        if (mine[y, x] != "➖")
+                        {
+                            Console.WriteLine("You already loot this spot...");
+                            continue;
+                        }
+                        
+                        if (hiddenMine[y, x] == "c")
+                        {
+                            mine[y, x] = "🪙";
+                            hiddenMine[y, x] = "";
+                            bits = random.Next(5, 51);
+                            Console.WriteLine($"You have found a coin!");
+                        }
+                        else
+                        {
+                            mine[y, x] = "❌";
+                        }
+
+                        if(a == Attempts -1)
+                        {
+                            Console.WriteLine("You have no attempts left");
+                        }
+                        for (int i = 0; i < mine.GetLength(0); i++)
+                        {
+                            for (int j = 0; j < mine.GetLength(1); j++)
+                            {
+                                Console.Write(mine[i, j]);
+                            }
+                            Console.WriteLine();
+                        }
+                    }
+
+                        break;
                 case 4: //Show inventory
                     break;
                 case 5: //Buy items
